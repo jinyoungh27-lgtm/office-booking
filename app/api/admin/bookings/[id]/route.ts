@@ -5,7 +5,8 @@ import { sendVisitorConfirmation } from "@/lib/email";
 export const dynamic = "force-dynamic";
 
 // GET a single booking with all relations
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = getSupabase();
 
   const { data, error } = await supabase
@@ -20,7 +21,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
         id, date, start_time, end_time, visitor_name, created_at
       )
     `)
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (error || !data) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -28,18 +29,17 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 }
 
 // PUT — confirm or reject a booking
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const body = await req.json();
   const { action, desk_ids, admin_notes } = body;
-  // action: "confirm" | "reject"
 
   const supabase = getSupabase();
 
-  // Fetch booking
   const { data: booking, error: fetchErr } = await supabase
     .from("bookings")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (fetchErr || !booking) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -51,7 +51,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const { error } = await supabase
       .from("bookings")
       .update({ status: "rejected", admin_notes: admin_notes ?? null })
-      .eq("id", params.id);
+      .eq("id", id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ ok: true, status: "rejected" });
   }
@@ -64,16 +64,14 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       );
     }
 
-    // Update booking status
     const { error: updateErr } = await supabase
       .from("bookings")
       .update({ status: "confirmed", admin_notes: admin_notes ?? null })
-      .eq("id", params.id);
+      .eq("id", id);
     if (updateErr) return NextResponse.json({ error: updateErr.message }, { status: 500 });
 
-    // Create desk assignments
     const assignments = desk_ids.map((desk_id: number) => ({
-      booking_id: params.id,
+      booking_id: id,
       desk_id,
       date: booking.date,
     }));
@@ -85,7 +83,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     if (assignErr) return NextResponse.json({ error: assignErr.message }, { status: 500 });
 
-    // Send confirmation email (non-blocking)
     sendVisitorConfirmation({ ...booking, status: "confirmed" }, assignData ?? []).catch(console.error);
 
     return NextResponse.json({ ok: true, status: "confirmed" });
@@ -95,9 +92,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE — permanently remove a booking and all related data
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = getSupabase();
-  const { error } = await supabase.from("bookings").delete().eq("id", params.id);
+  const { error } = await supabase.from("bookings").delete().eq("id", id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

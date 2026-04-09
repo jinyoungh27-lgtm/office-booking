@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = getSupabase();
 
   const { data, error } = await supabase
@@ -16,7 +17,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
         id, date, start_time, end_time, visitor_name, created_at
       )
     `)
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (error || !data) return NextResponse.json({ error: "Not found" }, { status: 404 });
