@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid password" }, { status: 401 });
   }
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   cookieStore.set("admin_session", sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
