@@ -268,7 +268,7 @@ export default function AdminBookingDetail() {
           {isPending && (
             <div className="flex gap-3">
               <button
-                onClick={confirm}
+                onClick={confirmBooking}
                 disabled={submitting}
                 className="flex-1 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-colors"
               >
