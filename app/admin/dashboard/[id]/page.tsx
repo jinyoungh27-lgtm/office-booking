@@ -97,7 +97,7 @@ export default function AdminBookingDetail() {
 
   async function reject() {
     if (!booking) return;
-    if (!confirm("Reject this booking?")) return;
+    if (!window.confirm("Reject this booking?")) return;
     setSubmitting(true); setError("");
     try {
       const res = await fetch(`/api/admin/bookings/${id}`, {
