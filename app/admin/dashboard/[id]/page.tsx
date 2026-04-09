@@ -56,7 +56,7 @@ export default function AdminBookingDetail() {
     );
   }
 
-  async function confirm() {
+  async function confirmBooking() {
     if (!booking) return;
     if (selectedDesks.length !== booking.num_guests) {
       setError(`Please select exactly ${booking.num_guests} desk(s) (${selectedDesks.length} selected)`);
