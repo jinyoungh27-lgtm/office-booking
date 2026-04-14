@@ -98,8 +98,8 @@ async function checkAvailability() {
                 <>For visitors, only <strong className="text-gray-700">Meeting Room 1</strong> is available. Meeting room reservations can be made through the link provided after your desk booking is confirmed.</>,
                 <>If you do not receive a confirmation email within <strong className="text-gray-700">48 hours</strong>, please contact us at jinyoung.hwang1@navercorp.com and we will assist you promptly.</>,
               ]},
-              { step: "2", title: "Office Location", lines: [<>555 Twin Dolphin Dr, Suite 365, Redwood City, CA — <a href="https://maps.google.com/?q=555+Twin+Dolphin+Dr,+Suite+365,+Redwood+City,+CA" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline hover:text-indigo-800">Google Maps</a></>] },
-              { step: "3", title: "Office Hours",    lines: [<>09:00 – 17:00</>] },
+              { step: "2", title: "Office Location", lines: [<>555 Twin Dolphin Dr, Suite 365, Redwood City, CA — <a href="https://maps.google.com/?q=555+Twin+Dolphin+Dr,+Suite+365,+Redwood+City,+CA" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-indigo-600 underline hover:text-indigo-800"><svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Google Maps</a></>] },
+              { step: "3", title: "Office Hours",    lines: [<>09:00 – 18:00</>] },
             ].map(({ step, title, lines }) => (
               <div key={step} className="flex gap-4">
                 <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
