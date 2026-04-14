@@ -98,7 +98,7 @@ async function checkAvailability() {
                 <>For visitors, only <strong className="text-gray-700">Meeting Room 1</strong> is available. Meeting room reservations can be made through the link provided after your desk booking is confirmed.</>,
                 <>If you do not receive a confirmation email within <strong className="text-gray-700">48 hours</strong>, please contact us at jinyoung.hwang1@navercorp.com and we will assist you promptly.</>,
               ]},
-              { step: "2", title: "Office Location", lines: [<>555 Twin Dolphin Dr, Suite 365</>] },
+              { step: "2", title: "Office Location", lines: [<>555 Twin Dolphin Dr, Suite 365, Redwood City, CA — <a href="https://maps.google.com/?q=555+Twin+Dolphin+Dr,+Suite+365,+Redwood+City,+CA" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline hover:text-indigo-800">Google Maps</a></>] },
               { step: "3", title: "Office Hours",    lines: [<>09:00 – 17:00</>] },
             ].map(({ step, title, lines }) => (
               <div key={step} className="flex gap-4">
